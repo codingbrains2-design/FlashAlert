@@ -46,6 +46,7 @@ Route::middleware(['subuser'])->group(function () {
     Route::match(array('GET','POST'),'/validatecode', [MessengerSubscriptionController::class,'validatecode'])->name('validatecode');
     Route::match(array('GET','POST'),'/adduseremail', [MessengerSubscriptionController::class,'adduseremail'])->name('adduseremail');
     Route::match(array('GET','POST'),'/deleteemail/{id}', [MessengerSubscriptionController::class,'deleteemail']);
+<<<<<<< HEAD
     Route::match(array('GET','POST'),'/resendcode/{id}', [MessengerSubscriptionController::class,'resendcode']);
     Route::match(array('GET','POST'),'/showorganization', [MessengerSubscriptionController::class,'showorganization'])->name('showorganization');
     Route::match(array('GET','POST'),'/showorganizationbyserch', [MessengerSubscriptionController::class,'showorganizationbyserch'])->name('showorganizationbyserch');
@@ -55,6 +56,8 @@ Route::middleware(['subuser'])->group(function () {
     Route::match(array('GET','POST'),'/changePasswrd', [MessengerSubscriptionController::class,'changePasswrd'])->name('changePasswrd');
     Route::get('/deletesubscriptionaccount/{id}', [MessengerSubscriptionController::class,'deletesubscriptionaccount']);
     
+=======
+>>>>>>> 20674ee (try to del unsub user)
     });
     Route::get('/msgsublogout', [MessengerSubscriptionController::class,'logout'])->name('msgsublogout');
 
