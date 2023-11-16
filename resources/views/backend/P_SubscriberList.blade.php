@@ -183,11 +183,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="Delete FlashAlert Users who have no subscriptions">
+                                            <button id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="">Delete FlashAlert Users who have no subscriptions</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <div  id="resultContainer"></div>
                             </div>
                             [ <b><a href="{{route('psub_subCR')}}">Subscriber Count Report</a></b> ] [ <b><a href="{{route('p_unsublist')}}">FlashAlert Unsubs</a></b> ]<br><br>
                         </div>
@@ -204,7 +205,7 @@
     $(document).ready(function() {
         // Attach a click event to the button
         $('#deleteButton').on('click', function() {
-            alert('hi');
+           // alert('hi');
             // Confirm the deletion
                 // Send an AJAX request to the server
                 let url = "{{route('del.user')}}";
@@ -213,7 +214,9 @@
                     url: url,
                     data: { PurgeBlankAccounts: true },
                     success: function(response) {
-                        alert(response.message);
+                        //$('#resultContainer').html(response);
+                        // console.log(response);
+                        console.log(response.publicUserIds);
                     },
                     error: function(error) {
                         console.error('Error:', error);
@@ -221,6 +224,5 @@
                 });
         });
     });
-
 </script>
 @endsection
