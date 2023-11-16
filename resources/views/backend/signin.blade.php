@@ -163,9 +163,6 @@
                     </div>
                 </div>
                 @endif
-                {{-- @if(session('failed'))
-                <p>{{ session('failed') }}</p>
-            @endif --}}
             </div>
             <div class="box-padding p-0">
                 <div class="row login-box mx-0">
@@ -177,17 +174,6 @@
                             <p>Not case sensitive. Two-minute timeout after five failed attempts</p>
                         </div>
                         <form method="post" action="{{ route('login') }}">
-                            @if ($errors->any() && $retries > 0)
-                            <span type="warning">
-                            Remaining {{ $retries }} attempt.
-                        </span>
-                    @endif
-    
-                    @if ($retries <= 0)
-                    <span>
-                        Please try again after {{ $seconds }} seconds.
-                 </span>
-                    @endif
                             @csrf
                             <div class="box-padding login-items" style="border-right: 2px solid #ccc;">
                                 <div class="py-3">
@@ -235,7 +221,7 @@
                         <div class="login-head-info" style="margin-top:40px;">
                             <p style="font-size:18px; margin-bottom:10px;"><strong>Are you a FlashAlert Messanger
                                     subscriber?</strong></p>
-                            <a href="{{ url('user-login') }}">Click here</a> to go to the Messanger login.
+                            <a href="{{ route('messengersub.login') }}">Click here</a> to go to the Messanger login.
                         </div>
                     </div>
                 </div>

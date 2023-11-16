@@ -15,6 +15,7 @@
             font-weight: 500;
             font-family: Arial, sans-serif;
         }
+
         .btn {
             margin: 10px 0px;
             border-radius: 4px;
@@ -55,10 +56,10 @@
                                 style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                                 <tr>
                                     <td style="padding:0 0 3px 0;color:#153643;">
-                                        <p style="font-weight:bold;font-family:'Roboto';font-size:16px;color:#606060">
+                                        <p style="font-weight:bold;font-family:'Roboto';font-size:18px;color:#606060;text-transform: uppercase;">
                                             {{ $user['headline'] }},</p>
                                         <p
-                                            style="margin:10px 0 12px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:Arial,sans-serif;color:#504f4f">
+                                            style="margin:10px 0 0px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:'Roboto';color:#504f4f">
                                             PREVIEW News Release from {{ $user['orgDropdown'] }}
                                         </p>
                                         <?php
@@ -66,24 +67,24 @@
                                         $currentPDTTime = $dateTime->format('F jS, Y g:i A');
                                         ?>
                                         <p
-                                            style="margin:10px 0 12px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:Arial,sans-serif;color:#504f4f">
+                                            style="margin:10px 0 0px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:'Roboto';color:#504f4f">
                                             Preview posted on FlashAlert: <?php echo $currentPDTTime; ?>
                                         </p>
 
                                         <p
-                                            style="margin:10px 0 12px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:Arial,sans-serif;color:#504f4f">
+                                            style="margin:10px 0 0px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:'Roboto';color:#504f4f">
                                             {!! $user['postText'] !!}
                                         </p>
                                         {{-- <p
-                                            style="margin:10px 0 12px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:Arial,sans-serif;">
+                                            style="margin:10px 0 0px 0;font-size:13px;font-weight: 600;line-height:24px;font-family:'Roboto';">
                                             Click here to log in automatically by clicking the button below.
                                         </p> --}}
-                                        <p style="text-align: center;margin: 60px  0;">
+                                        <p style="margin: 60px  0;">
                                             <strong>Contact Info: </strong><br>
                                             {{ $user['contactInfo'] }}
                                         </p>
                                         <p
-                                            style="margin:50px 0 12px 0;font-size:16px;font-family:Arial,sans-serif;font-weight:600;text-align:end;color:#606060">
+                                            style="margin:50px 0 12px 0;font-size:14px;font-family:'Roboto';font-weight:500;color:#606060">
                                             Sent via FlashAlert Newswire. Replies to this message do not go back to the
                                             sender.
                                             Go to {{ route('messengersub.login') }} to change or delete these messages.

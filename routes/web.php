@@ -19,7 +19,6 @@ use App\Http\Controllers\MessengerSubscriptionController;
 use App\Http\Controllers\MonitoringReportController;
 use App\Http\Controllers\ParticipantsController;
 use App\Http\Controllers\FTInfoController;
-use App\Http\Controllers\emulateController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,8 +34,28 @@ Route::get('/', [RegionController::class,'MenuSection']);
 Route::get('/regions/{regionName}', [RegionController::class,'OrgCat'])->name('regions');
 Route::post('/getorgName', [RegionController::class,'searchByOrgName'])->name("search.ByOrg");
 Route::post('/getorgData', [RegionController::class,'orgList']);
-Route::get('/id/{org}', [RegionController::class,'EmergencyMess']);
-Route::get('/ids/{org}', [RegionController::class,'EmergencyMess1']);
+Route::get('/id/{org}', [MessengerSubscriptionController::class,'EmergencyMess']);
+Route::get('messenger-login',[MessengerSubscriptionController::class,'loginme'])->name('messengersub.login');
+Route::match(['get', 'post'],'regions',[MessengerSubscriptionController::class,'frontend_region'])->name('frontend-region');
+Route::get('/ids/{org}', [MessengerSubscriptionController::class,'EmergencyMess1']);
+Route::get('messenger-login',[MessengerSubscriptionController::class,'loginme'])->name('messengersub.login')->middleware('alreadyLoggedIN')->middleware('prevent-back-history');
+Route::match(array('GET','POST'),'/signup', [MessengerSubscriptionController::class, 'subscribe'])->name('messSubscribe');
+Route::match(array('GET','POST'),'/create', [MessengerSubscriptionController::class, 'msmanage'])->name('messSubscribeManage');
+Route::middleware(['subuser'])->group(function () {
+    Route::match(array('GET','POST'),'/manage', [MessengerSubscriptionController::class,'subdashboard'])->name('sub-dashboard');
+    Route::match(array('GET','POST'),'/validatecode', [MessengerSubscriptionController::class,'validatecode'])->name('validatecode');
+    Route::match(array('GET','POST'),'/adduseremail', [MessengerSubscriptionController::class,'adduseremail'])->name('adduseremail');
+    Route::match(array('GET','POST'),'/deleteemail/{id}', [MessengerSubscriptionController::class,'deleteemail']);
+    Route::match(array('GET','POST'),'/resendcode/{id}', [MessengerSubscriptionController::class,'resendcode']);
+
+    
+    });
+    Route::get('/msgsublogout', [MessengerSubscriptionController::class,'logout'])->name('msgsublogout');
+
+Route::get('user-login-link/{token}/{email}', [MessengerSubscriptionController::class, 'UserLoginLinkValidate']);
+
+Route::post('sub-login', [MessengerSubscriptionController::class, 'mesSubLogin'])->name('mesSubLogin');
+Route::get('forgetPass',[MessengerSubscriptionController::class,'lostpass'])->name('frontend-lostpass');
 Route::get('/post-your-news/{url}/{id}', [RegionController::class,'postnews'])->name('postnewsregions');
 Route::get('/user-login', [CommonController::class,'ulogin'])->name('userlogin');
 Route::post('/submit-form', [RegionController::class,'submitForm']);
@@ -49,10 +68,7 @@ Route::get('login-link/{token}', [CommonController::class, 'LoginLinkValidate'])
 Route::get('guide.html',[CommonController::class,'guideForPostingNews'])->name('closure.guide');
 Route::get('flashblog',[CommonController::class,'flashblog'])->name('blog');
 Route::get('monitor',[NewsMediaMonitoringController::class,'newsMediaMonitor'])->name('monitor');
-Route::get('messenger-login',[MessengerSubscriptionController::class,'loginme'])->name('messengersub.login');
-Route::get('forgetPass',[MessengerSubscriptionController::class,'lostpass'])->name('frontend-lostpass');
 Route::get('attach-app-tutor',[MessengerSubscriptionController::class,'attach_app'])->name('attach-app-tut');
-Route::get('regions',[MessengerSubscriptionController::class,'frontend_region'])->name('frontend-region');
 
 // Route::get('/tutorial.pdf', function () {
 //     $file = Storage::disk('local')->path('pdffile/tutorial.pdf');
@@ -102,8 +118,6 @@ Route::prefix('IIN')->group(function () {
         return "Optimization cleared!";
     });
     Route::get('login', [UserController::class,'login'])->name('backend.signin')->middleware('alreadyLoggedIN')->middleware('prevent-back-history');
-    //Route::get('lorginform/{id}', [UserController::class,'emulateLogin'])->name('emulatelogin');
-    Route::post('emulate-login', [RegionalUserManagementController::class, 'emulateLogin'])->name('emulate-login');
     Route::get('onetimelogin', [UserController::class,'onetimelogin'])->name("onetime.login");
     Route::get('getorgdata', [UserController::class,'getorgdata'])->name("getogron");
     Route::get('orgcategory', [UserController::class,'orgcategory'])->name("orgcategory");
@@ -112,7 +126,7 @@ Route::prefix('IIN')->group(function () {
     Route::post('custom-login', [UserController::class, 'customLogin'])->name('login')->middleware(['throttle:loginattempt']);
     Route::middleware(['isLoggedIN', 'prevent-back-history'])->group(function () {
         Route::get('dashboard', [UserController::class,'admindashboard'])->name('backend.dashboard');
-        Route::get('/logout', [UserController::class,'logout'])->name('logout')->middleware('org');
+        Route::get('/logout', [UserController::class,'logout'])->name('logout');
         Route::get('failed-login', [UserController::class,'failedlogin'])->name('f.login');
         Route::get('del-failed-login/{id}', [UserController::class,'delfailedlogin']);
         Route::post('/delete-selected', [UserController::class,'deleteSelected'])->name('delete.selected');
@@ -209,6 +223,7 @@ Route::prefix('IIN')->group(function () {
 
         //---------------------------Public Subscriber-----------------------//
         Route::match(array('GET','POST'),'sublist',[PublicSubscriberController::class,'SubscriberList'])->name('psub_list');
+        Route::post('delete-users', [PublicSubscriberController::class, 'deleteUsers'])->name('del.user');
         Route::get('sublist-{id}',[PublicSubscriberController::class,'SubscriberEmailList'])->name('psub_Emaillist');
         Route::get('unsubscribe-all/{id}', [PublicSubscriberController::class, 'unsubscribeAll']);
         Route::get('psubCReport',[PublicSubscriberController::class,'PSubCR'])->name('psub_subCR');
@@ -233,9 +248,9 @@ Route::prefix('IIN')->group(function () {
         Route::get('fa-closurereports',[FAToolsController::class,'fa_closurereports'])->name('fa.closurereports');
         Route::match(array('GET','POST'),'closurereports-Submission',[FAToolsController::class,'fa_closurereportsSubmission'])->name('fa.closurereportssubmission');
         Route::match(array('GET','POST'),'Post-N-R',[NewsReleaseController::class,'postNews'])->name('fa.postnewsrelease');
-        //Route::match(array('GET','POST'),'N-R-Archive',[NewsReleaseController::class,'postNews'])->name('fa.newsReleaseArchives');
+        Route::match(array('GET','POST'),'N-R-Archive',[NewsReleaseController::class,'newsReleaseArchive'])->name('fa.newsReleaseArchives');
         Route::match(['GET', 'POST'], 'fa-news-release', [NewsReleaseController::class, 'newsRelease'])->name('fa.fa-news-release');
-        Route::post('postnewsrel',[NewsReleaseController::class,'postnewsrelMail'])->name('detailsform');
+        Route::post('postnewsrel',[NewsReleaseController::class,'postnewsrelMail'])->name('detailsform');   
         Route::post('fa-news-release/get-categories', [NewsReleaseController::class, 'getCategories'])->name('fa.fa-news-release.getCategories');
         Route::post('fa-news-release/get-org-data-for-org-cat', [NewsReleaseController::class, 'getOrgDataForOrgCat'])->name('fa.fa-news-release.getOrgDataForOrgCat');
         //---------------------------FlashAlert Tools-----------------------//
@@ -271,7 +286,6 @@ Route::prefix('IIN')->group(function () {
         Route::match(array('GET','POST'),'emailaddress', [AutoConfirEmailController::class,'emailaddress'])->name('email.address'); 
         Route::match(array('GET','POST'),'subsdisstatus', [CommonController::class,'subsdispatch'])->name('subs.dis.status'); 
         Route::match(array('GET','POST'),'emrreportarch', [CommonController::class,'emrreportarch'])->name('emr.report.arch');
-
         });
 });
     //   Edit the Auto-Confirmation Email Template

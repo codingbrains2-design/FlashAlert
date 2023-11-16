@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class newsReleaseMail extends Mailable
+class newsReleasePreviewEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -22,7 +22,6 @@ class newsReleaseMail extends Mailable
     public $orgDropdown;
     public function __construct($headline, $postText, $contactInfo, $orgDropdown)
     {
-        
         $this->headline = $headline;
         $this->postText = $postText;
         $this->contactInfo = $contactInfo;
@@ -40,9 +39,8 @@ class newsReleaseMail extends Mailable
         $user['postText'] = $this->postText;
         $user['contactInfo'] = $this->contactInfo;
         $user['orgDropdown'] = $this->orgDropdown;
-
         return $this->from("flashalert@projects-codingbrains.com", $user['orgDropdown'])
         ->subject($user['headline'])
-        ->view('template.newsreleasemail', ['user' => $user]);
+        ->view('template.newsReleasePreviewEmail', ['user' => $user]);
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class RateLimitMiddleware
+class SubUser
 {
     /**
      * Handle an incoming request.
@@ -16,6 +16,10 @@ class RateLimitMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!Session()->has('ret')){
+            return redirect()->route('msgsublogout');
+            
+        }
         return $next($request);
     }
 }

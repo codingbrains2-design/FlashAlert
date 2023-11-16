@@ -80,7 +80,8 @@
                                         </p>
                                         <ul>
                                             <li> Post emergency messages in English. Spanish stations translate them and
-                                                multi-language translation is available on <a href=""> your org’s
+                                                multi-language translation is available on <a href="/id/FlashAlert"> your
+                                                    org’s
                                                     FlashAlert page</a></li>
                                             <li> Please read <a href="{{ url('guide.html') }}">Guidelines for Posting News
                                                     on FlashAlert</a>
@@ -182,12 +183,11 @@
                                 <strong>3) OPTIONAL: Additional info for Messenger subscribers and Web sites</strong>
                                 <textarea class="form-control mb-3" id="myTextareaOpt" rows="3" name="dd"></textarea>
                                 <div class="d-flex space-between">
-                                    <p class="m-0">Preview: Normal text goes to all; Italic text is additional info for
+                                    <p class="m-2">Preview: Normal text goes to all; Italic text is additional info for
                                         Messenger/Web</p>
-                                    <p class="m-0">( 10 Charasters )</p>
                                 </div>
-                                <div class="callout callout-warning">
-                                    <strong style="font-size: 16px;">FlashAlert:</strong>
+                                <div class="callout callout-warning countchar mb-2">
+                                    <strong style="font-size: 16px;" id="orgCatName">FlashAlert:</strong>
                                     <span class="mx-2" id="selectedOptionText1"></span>
                                     <span id="selectedOptionText2"></span>
                                     <span id="selectedOptionText3"></span>
@@ -196,6 +196,9 @@
                                     <span id="mySpan" class="mx-2 fw-bold" style="font-size:16px;"></span>
                                     <span id="mySpan2" style="color: #880000;"></span>
                                     <input type="hidden" name="mergeContent">
+                                </div>
+                                <div style="text-align: right;">
+                                    <p class="m-0" id="charCount"></p>
                                 </div>
                                 <strong>Contact Info for News Media</strong>
                                 <small>Include phone number and email address; not visible to public.
@@ -210,9 +213,10 @@
                                             <select class="form-control" name="deletedAt" id="deletedAt" size="1">
                                                 <?php
                                                 // Set the timezone to India Standard Time
-                                                //date_default_timezone_set('Asia/Kolkata');
+                                                // date_default_timezone_set('Asia/Kolkata');
                                                 // Set the timezone to Pacific Time Zone
                                                 date_default_timezone_set('America/Los_Angeles'); // Pacific Time Zone
+                                                
                                                 // Set the timezone to Mountain Time Zone
                                                 date_default_timezone_set('America/Denver'); // Mountain Time Zone
                                                 // Get the current time
@@ -234,9 +238,18 @@
                                                 while ($start_time <= $end_time) {
                                                     // Calculate the current time
                                                     $time = $start_time->format('h:i a');
+                                                    // Check if the time is 12:00 AM
+                                                    if ($start_time->format('H:i') === '00:00') {
+                                                        $time .= ' (Midnight)';
+                                                    }
+                                                    // Check if the time is 12:00 PM
+                                                    if ($start_time->format('H:i') === '12:00') {
+                                                        $time .= ' (Noon)';
+                                                    }
                                                     // Calculate the current date and time in the desired format
                                                     $formatted_option = $start_time->format('D. M. j - ') . $time;
                                                     // Check if the start time is greater than or equal to the current time
+                                                
                                                     if ($start_time >= $current_time) {
                                                         // Determine if the current option is selected
                                                         $selected = '';
@@ -498,7 +511,7 @@
             $("#openingStatus").on("change", function() {
                 // Get the selected value from the "Opening Status" dropdown
                 const selectedValue = $(this).val();
-                alert(selectedValue)
+                alert("Message will delete at: " + selectedValue);
 
                 // Find the corresponding option in the "Deleted At" dropdown and set it as selected
                 $("#deletedAt").val(selectedValue);
@@ -509,22 +522,40 @@
         // Get references to the textarea and output div elements
         const textarea = document.getElementById('myTextarea');
         const outputcon = document.getElementById('outputcon');
-        // Add an event listener to the textarea for the 'input' event
-        textarea.addEventListener('input', function() {
-            // Get the value from the textarea
-            const textValue = textarea.value;
-            // Update the content of the output div with the text value
-            outputcon.textContent = textValue;
-        });
-        // Get references to the textarea and output div elements
         const textareaOpt = document.getElementById('myTextareaOpt');
         const outputcontentopt = document.getElementById('outputcontentopt');
-        // Add an event listener to the textarea for the 'input' event
-        textareaOpt.addEventListener('input', function() {
-            // Get the value from the textarea
+        const orgCatName = document.getElementById('orgCatName');
+        const checkbox = document.getElementById('myCheckbox');
+        const checkbox2 = document.getElementById('myCheckbox2');
+        const span = document.getElementById('mySpan');
+        const span2 = document.getElementById('mySpan2');
+        const dateInfo = document.getElementById('dateInfo');
+        var charCountElement = document.getElementById('charCount');
+
+        // Function to update character count
+        function updateCharacterCount() {
+            // Get the value from the textareas
+            const textValue = textarea.value;
             const textValue2 = textareaOpt.value;
-            // Update the content of the output div with the text value
+            const orgCatNameText = orgCatName.textContent;
+            const spanText = span.textContent;
+            const span2Text = span2.textContent;
+            // Combine the text from all elements for character counting
+            const combinedText = orgCatNameText + textValue + textValue2 + spanText + span2Text;
+            // Update the content of the output divs
+            outputcon.textContent = textValue;
             outputcontentopt.textContent = textValue2;
-        });
+            // Get the character count
+            const charCount = combinedText.length;
+            // Update the character count in the target div
+            charCountElement.textContent = "(" + charCount + " Characters )";
+        }
+        // Add event listeners to the textareas and checkboxes for the 'input' event and 'change' event
+        textarea.addEventListener('input', updateCharacterCount);
+        textareaOpt.addEventListener('input', updateCharacterCount);
+        checkbox.addEventListener('change', updateCharacterCount);
+        checkbox2.addEventListener('change', updateCharacterCount);
+        // Initial character count update
+        updateCharacterCount();
     </script>
 @endsection

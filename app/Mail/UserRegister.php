@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserLoginMail extends Mailable
+class UserRegister extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,18 +16,14 @@ class UserLoginMail extends Mailable
      *
      * @return void
      */
-
      public $region;
      public $name;
-     public $username;
-     public $url;
-    public function __construct($region,$name,$username,$url,$useremail)
+    
+    public function __construct($region,$name)
     {
-        $this->region = $region;
-        $this->name = $name;
-        $this->username = $username;
-        $this->url = $url;
-        $this->useremail = $useremail;
+        $this->region =$region;
+        $this->name =$name;
+       
     }
 
     /**
@@ -39,12 +35,9 @@ class UserLoginMail extends Mailable
     {
         $user['region'] =  $this->region;
         $user['name'] =  $this->name;
-        $user['username'] =  $this->username;
-        $user['url'] =   $this->url;
-        $user['useremail'] =  $this->useremail;
 
         return $this->from("flashalert@projects-codingbrains.com", "Test")
-        ->subject('Your Login Details With us')
-        ->view('template.send-user-login-mail', ['user' => $user]);
+        ->subject('Flash Alert -Account Validation')
+        ->view('template.register-user-mail', ['user' => $user]);
     }
 }
