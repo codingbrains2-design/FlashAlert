@@ -183,12 +183,12 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <button id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="">Delete FlashAlert Users who have no subscriptions</button>
+                                            {{-- <button id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="">Delete FlashAlert Users who have no subscriptions</button> --}}
+                                            <input id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="Delete FlashAlert Users who have no subscriptions">
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div  id="resultContainer"></div>
                             </div>
                             [ <b><a href="{{route('psub_subCR')}}">Subscriber Count Report</a></b> ] [ <b><a href="{{route('p_unsublist')}}">FlashAlert Unsubs</a></b> ]<br><br>
                         </div>
@@ -202,27 +202,30 @@
         document.getElementById("orgCatSelect").selectedIndex = 0; // Reset orgCatSelect to the first option
         document.getElementById("orgCatSelect").onchange();
     }
-    $(document).ready(function() {
-        // Attach a click event to the button
-        $('#deleteButton').on('click', function() {
-           // alert('hi');
-            // Confirm the deletion
-                // Send an AJAX request to the server
-                let url = "{{route('del.user')}}";
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: { PurgeBlankAccounts: true },
-                    success: function(response) {
-                        //$('#resultContainer').html(response);
-                        // console.log(response);
-                        console.log(response.publicUserIds);
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
-                    }
-                });
-        });
-    });
+    // $(document).ready(function() {
+    //     // Attach a click event to the button
+    //     $('#deleteButton').on('click', function() {
+    //        // alert('hi');
+    //         // Confirm the deletion
+    //             // Send an AJAX request to the server
+    //             let url = "{{route('del.user')}}";
+    //             if (confirm('Wow, that sounds harsh. Are you sure you want to close all those empty accounts?')) {
+    //             $.ajax({
+    //                 type: 'POST',
+    //                 url: url,
+    //                 data: { PurgeBlankAccounts: true },
+    //                 success: function(response) {
+    //                     //$('#resultContainer').html(response);
+    //                     // console.log(response);
+    //                     console.log(response.publicUserIds);
+    //                 },
+    //                 error: function(error) {
+    //                     console.error('Error:', error);
+    //                 }
+    //             });
+    //         }
+    //     });
+    //     });
+
 </script>
 @endsection

@@ -67,22 +67,23 @@ class PublicSubscriberController extends Controller
                 })
                 ->get();
 
-            //       $ids = [];
-            //     foreach ($publicUserIds as $pu) {
-            //         //$ids[] = $pu->id;
-            //         //DB::table('publicuser')->where('id', $pu->id)->delete();
-            //         $ids[] = DB::table('publicuser')->where('id', $pu->id)->get();
-            //         }
+                // foreach ($publicUserIds as $pu) {
+                //     DB::table('publicuser')->where('id', $pu->id)->delete();
+                //     }
+                //     return response()->json(['message' => 'Users deleted successfully']);
+
+                  //$ids = [];
+                
             // return response()->json(['publicUserIds' => $ids]);
             //echo json_encode($userData);
 
-            $userData = [];
-            foreach ($publicUserIds as $pu) {
-                $user = DB::table('publicuser')->where('id', $pu->id)->first();
-                // You can customize $user to include only the necessary fields
-                $userData[] = $user ? $user : null;
-            }
-            return response()->json(['publicUserIds' => $userData]);
+            // $userData = [];
+            // foreach ($publicUserIds as $pu) {
+            //     $user = DB::table('publicuser')->where('id', $pu->id)->first();
+            //     // You can customize $user to include only the necessary fields
+            //     $userData[] = $user ? $user : null;
+            // }
+            // return response()->json(['publicUserIds' => $userData]);
           }
 
         public function SubscriberEmailList($id)
