@@ -185,7 +185,32 @@ class PublicSubscriberController extends Controller
             //“Purge All Unvalidated emails” and “Purge All Accounts with Invalid primary email address”
 
        //___________________Email change tool______________________________//
-       public function changeEmailT(){
-        return view('backend.emailChangTool');
+        public function changeEmailT(){
+         return view('backend.emailChangTool');
+        }
+        public function previewEmailChange(Request $request)
+        {
+            $oldEmail = $request->input('oldEmail');
+            $newEmail = $request->input('newEmail');
+            $user = DB::table('publicuser')->where('EmailAddress', $oldEmail)->first();
+    
+            if (!$user) {
+                return redirect()->route('email.changeTool')->with('error', 'Old email not found in the database.');
+            }
+            return view('backend.emailChangTool', compact('oldEmail', 'newEmail'));
+        }
+    
+        public function updateEmail(Request $request)
+        {
+            $oldEmail = $request->input('oldEmail');
+            $newEmail = $request->input('newEmail');
+    
+            $user = DB::table('publicuser')->where('EmailAddress', $oldEmail)->first();
+    
+            if ($user) {
+                DB::table('publicuser')->where('EmailAddress', $oldEmail)->update(['EmailAddress' => $newEmail]);
+                return redirect()->route('email.changeTool')->with('success', 'Email updated successfully.');
+            }
+            return redirect()->route('email.changeTool')->with('error', 'Old email not found in the database.');
         }
 }

@@ -235,7 +235,10 @@ Route::prefix('IIN')->group(function () {
         Route::get('psubCReport',[PublicSubscriberController::class,'PSubCR'])->name('psub_subCR');
         Route::get('punsublist',[PublicSubscriberController::class,'PunsubList'])->name('p_unsublist');
         Route::match(['GET', 'POST'], 'purgSub', [PublicSubscriberController::class, 'purgeSubs'])->name('purg_subs');
-        Route::get('emailchangetl',[PublicSubscriberController::class,'changeEmailT'])->name('email.changeTool');
+        Route::get('emailchangetl', [PublicSubscriberController::class, 'changeEmailT'])->name('email.changeTool');
+        Route::post('emailchangetl/preview', [PublicSubscriberController::class, 'previewEmailChange'])->name('processEmailChange');
+        Route::post('emailchangetl/update', [PublicSubscriberController::class, 'updateEmail'])->name('updateEmail');
+        // Route::get('emailchangetl',[PublicSubscriberController::class,'changeEmailT'])->name('email.changeTool');
                 //“Purge All Unvalidated emails” and “Purge All Accounts with Invalid primary email address”
         Route::post('purge/unvalidated', [PublicSubscriberController::class,'purgeUnvalidated'])->name('purge.unvalidated');
         Route::post('purge/invalidPrimaryEmails', [PublicSubscriberController::class,'purgeInvalidPrimaryEmails'])->name('purge.invalidPrimaryEmails');
