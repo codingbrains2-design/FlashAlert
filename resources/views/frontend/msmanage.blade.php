@@ -170,7 +170,8 @@
                                         <td class="align-middle">
                                             <div class="tbl-btns">
                                                 <button type="submit" class="btn btn-outline-warning">Update</button>
-                                                <button type="button" class="btn btn-outline-primary">Send Test</button>
+                                                <!-- <button type="button" class="btn btn-outline-primary">Send Test</button> -->
+                                                <a href="{{url('sendtest/'.$datas1->id)}}" class="btn btn-outline-primary">Send Test</a>
                                                 @if($datas1->IsPrimary !=1)
                                                 <a href="{{url('deleteemail/'.$datas1->id)}}" class="btn btn-outline-danger">Delete</a>
                                                 @endif
@@ -306,14 +307,18 @@
                                         @endforeach
                                     </span></div>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault" @if($orgs->EmergSub == 1) checked @endif>
-                                    <label class="form-check-label" for="flexCheckDefault">
+                                <input type="hidden" name="Ealertup" value="0">
+                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
+                                        @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
                                         Emergency Alerts
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked" @if($orgs->NewsSub == 1) checked @endif>
-                                    <label class="form-check-label" for="flexCheckChecked">
+                                <input type="hidden" name="Nreleaseup" value="0">
+                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
+                                        @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
                                         News Releases
                                     </label>
                                 </div>
