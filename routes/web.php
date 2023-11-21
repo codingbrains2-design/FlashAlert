@@ -51,6 +51,9 @@ Route::middleware(['subuser'])->group(function () {
     Route::match(array('GET','POST'),'/showorganizationbyserch', [MessengerSubscriptionController::class,'showorganizationbyserch'])->name('showorganizationbyserch');
     Route::match(array('GET','POST'),'/addsubscription', [MessengerSubscriptionController::class,'addsubscription'])->name('addsubscription');
     Route::match(array('GET','POST'),'/updatenewssubs', [MessengerSubscriptionController::class,'updatenewssubs'])->name('updatenewssubs');
+     Route::get('/deletesubscription/{id}', [MessengerSubscriptionController::class,'deletesubscription']);
+    Route::match(array('GET','POST'),'/changePasswrd', [MessengerSubscriptionController::class,'changePasswrd'])->name('changePasswrd');
+    Route::get('/deletesubscriptionaccount/{id}', [MessengerSubscriptionController::class,'deletesubscriptionaccount']);
     
     });
     Route::get('/msgsublogout', [MessengerSubscriptionController::class,'logout'])->name('msgsublogout');

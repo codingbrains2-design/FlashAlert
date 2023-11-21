@@ -181,10 +181,11 @@
                                         <td class="TableDivider">Purge FlashAlert Users</td>
                                         <td class="TableDivider"></td>
                                     </tr>
+                                    <form method="post" action="" style="margin:0;padding:0;">
+                                    </form>
                                     <tr>
                                         <td>
-                                            {{-- <button id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="">Delete FlashAlert Users who have no subscriptions</button> --}}
-                                            <input id="deleteButton" class="btn btn-danger" name="PurgeBlankAccounts" value="Delete FlashAlert Users who have no subscriptions">
+                                            <input type="submit" class="btn btn-danger" name="PurgeBlankAccounts" value="Delete FlashAlert Users who have no subscriptions" onclick="return confirm('Wow, that sounds harsh.  Are you sure you want to close all those empty accounts?');">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -202,30 +203,6 @@
         document.getElementById("orgCatSelect").selectedIndex = 0; // Reset orgCatSelect to the first option
         document.getElementById("orgCatSelect").onchange();
     }
-    // $(document).ready(function() {
-    //     // Attach a click event to the button
-    //     $('#deleteButton').on('click', function() {
-    //        // alert('hi');
-    //         // Confirm the deletion
-    //             // Send an AJAX request to the server
-    //             let url = "{{route('del.user')}}";
-    //             if (confirm('Wow, that sounds harsh. Are you sure you want to close all those empty accounts?')) {
-    //             $.ajax({
-    //                 type: 'POST',
-    //                 url: url,
-    //                 data: { PurgeBlankAccounts: true },
-    //                 success: function(response) {
-    //                     //$('#resultContainer').html(response);
-    //                     // console.log(response);
-    //                     console.log(response.publicUserIds);
-    //                 },
-    //                 error: function(error) {
-    //                     console.error('Error:', error);
-    //                 }
-    //             });
-    //         }
-    //     });
-    //     });
 
 </script>
 @endsection

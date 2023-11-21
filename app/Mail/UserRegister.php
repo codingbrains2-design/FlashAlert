@@ -16,15 +16,14 @@ class UserRegister extends Mailable
      *
      * @return void
      */
-     public $region;
-     public $name;
-    
-    public function __construct($region,$name)
-    {
-        $this->region =$region;
-        $this->name =$name;
-       
-    }
+      public $region;
+      public $name;
+     public function __construct($region,$name)
+     {
+         $this->region =$region;
+         $this->name =$name;
+        
+     }
 
     /**
      * Build the message.

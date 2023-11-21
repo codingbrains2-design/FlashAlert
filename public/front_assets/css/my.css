@@ -1077,10 +1077,28 @@ form.front-login {
     font-weight: bold;
     background: #c2e5f1;
 }
-..loginColor .dropdown-menu li i{
+.loginColor .dropdown-menu li i{
     color: #097397;
 }
 /*Media Query*/
+/* @media (min-width: 1024.98px) {
+    .tbl-tablet{
+        display: none;
+    }
+    .tbl-large{
+        display: block;
+    }
+}
+
+@media (max-width: 1024.98px) {
+    .tbl-tablet{
+        display: block;
+    }
+    .tbl-large{
+        display: none;
+    }
+} */
+
 @media (max-width: 920.98px) {
     .form-select.info-select {
         width: 50%;

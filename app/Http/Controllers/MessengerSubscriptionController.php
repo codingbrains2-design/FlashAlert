@@ -382,10 +382,14 @@ class MessengerSubscriptionController extends Controller
         
         
         public function updatenewssubs(Request $request){
-            //echo '<pre>'; print_r($request->all()); die;
+            // echo '<pre>'; print_r($request->all()); die;
+            // $emergSub = isset($request->Ealertup) ? 1 : 0;
+            // $newsSub = isset($request->Nreleaseup) ? 1 : 0;
+
             $data=[
                 'EmergSub' => $request->Ealertup,
                 'NewsSub' => $request->Nreleaseup,
+              
             ];
 
             DB::table('publicusersubscription')->where('id',$request->hidden)->update($data);

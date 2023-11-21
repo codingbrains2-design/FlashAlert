@@ -58,34 +58,6 @@ class PublicSubscriberController extends Controller
         return view('backend.P_SubscriberList', compact('data','response','category','selectedRegion','selectedorgcat','firstIdCounts'));
     }
 
-    public function deleteUsers(Request $request){
-        $publicUserIds = DB::table('publicuser as pu')
-                ->select('pu.id')
-                ->whereNotIn('pu.id', function($query) {
-                    $query->select('pus.PublicUserID')
-                        ->from('publicusersubscription as pus');
-                })
-                ->get();
-
-                // foreach ($publicUserIds as $pu) {
-                //     DB::table('publicuser')->where('id', $pu->id)->delete();
-                //     }
-                //     return response()->json(['message' => 'Users deleted successfully']);
-
-                  //$ids = [];
-                
-            // return response()->json(['publicUserIds' => $ids]);
-            //echo json_encode($userData);
-
-            // $userData = [];
-            // foreach ($publicUserIds as $pu) {
-            //     $user = DB::table('publicuser')->where('id', $pu->id)->first();
-            //     // You can customize $user to include only the necessary fields
-            //     $userData[] = $user ? $user : null;
-            // }
-            // return response()->json(['publicUserIds' => $userData]);
-          }
-
         public function SubscriberEmailList($id)
             {
             // Retrieve the user IDs from the PublicUserSubscription table
