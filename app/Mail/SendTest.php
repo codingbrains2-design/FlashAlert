@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class UserRegister extends Mailable
+class SendTest extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -16,14 +16,10 @@ class UserRegister extends Mailable
      *
      * @return void
      */
-      public $region;
-      public $name;
-     public function __construct($region,$name)
-     {
-         $this->region =$region;
-         $this->name =$name;
-        
-     }
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Build the message.
@@ -32,11 +28,10 @@ class UserRegister extends Mailable
      */
     public function build()
     {
-        $user['region'] =  $this->region;
-        $user['name'] =  $this->name;
+       
 
         return $this->from("flashalert@projects-codingbrains.com", "Test")
-        ->subject('Flash Alert -Account Validation')
-        ->view('template.register-user-mail', ['user' => $user]);
+        ->subject('Flash Alert -Send Test')
+        ->view('template.sendtest');
     }
 }

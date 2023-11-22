@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegister;
-use App\Mail\SendTest;
 use Carbon\Carbon;
 class MessengerSubscriptionController extends Controller
 {
@@ -303,9 +302,7 @@ class MessengerSubscriptionController extends Controller
         public function showorganization(Request $request){
             $id= $request->id;
             $response=DB::table('orgcats as oc')
-            ->join('orgs as o', 'oc.id', '=', 'o.OrgCatID')
-            ->where('oc.RegionID', $id)
-            ->get(); 
+            ->join('orgs as o', 'oc.id', '=', 'o.OrgCatID')->where('oc.RegionID', $id)->get(); 
             if(count($response)>0){
             $current_state = null;
             $html = '';
@@ -327,30 +324,16 @@ class MessengerSubscriptionController extends Controller
         public function showorganizationbyserch(Request $request){
             $id= $request->id;
             $searchText=$request->searchvalue;
-            // $response = DB::table('orgcats as oc')
-            // ->join('orgs as o', 'oc.id', '=', 'o.OrgCatID')
-            // ->where('oc.RegionID', $id)
-            // ->where(function ($query) use ($searchText) {
-            //     $query->where('o.Name', 'like', '%'.$searchText.'%');
-            // })
-            // ->get();
-
-
             $response = DB::table('orgcats as oc')
-            ->join('orgs as o', 'oc.id', '=', 'o.OrgCatID');
-            if (!empty($id)) {
-                $response->where('oc.RegionID', $id);    
-               
-            }
-            if (!empty($searchText)) {
-                $response->where('o.Name', 'like', '%' . $searchText . '%');    
-               
-            }
-            $html = '';
-            $response= $response->get();
+            ->join('orgs as o', 'oc.id', '=', 'o.OrgCatID')
+            ->where('oc.RegionID', $id)
+            ->where(function ($query) use ($searchText) {
+                $query->where('o.Name', 'like', '%'.$searchText.'%');
+            })
+            ->get();
             if(count($response)>0){
                 $current_state = null;
-                
+                $html = '';
                 foreach ($response as $datas){
                 $state_name =  $datas->CatagoryName;
                 if($state_name != $current_state) {
@@ -359,80 +342,12 @@ class MessengerSubscriptionController extends Controller
                 $html .= '<optgroup label="'.$state_name.'('.$nameCount.')">';
                 }
                 $html.='<option value="'.$datas->id.'">'.$datas->Name.'</option>
-                </optgroup><input type="hidden" id="optgroupid" value="'.$datas->id.'">';
+                </optgroup>';
                 }  
                 echo $html; 
                 }else{
-                    $html .= '<optgroup label="Opps">
-                    <option value="">No Matches</option>';
-                    echo $html;
+                    echo '';
                 }        
         }
-        public function addsubscription(Request $request){
-          //echo '<pre>'; print_r($request->all()); die;
-        $data=[
-            'OrgID'=>$request->orgid,
-            'PublicUserID'=>$request->userid,
-            'EmergSub' => $request->Ealert,
-            'NewsSub' => $request->Nrelease,
-        ];
-
-        DB::table('publicusersubscription')->insert($data);
-        return redirect()->route('sub-dashboard')->with('success','You Subscription Added SuccesfullY!');
-        } 
-        
-        
-        public function updatenewssubs(Request $request){
-            // echo '<pre>'; print_r($request->all()); die;
-            // $emergSub = isset($request->Ealertup) ? 1 : 0;
-            // $newsSub = isset($request->Nreleaseup) ? 1 : 0;
-
-            $data=[
-                'EmergSub' => $request->Ealertup,
-                'NewsSub' => $request->Nreleaseup,
-              
-            ];
-
-            DB::table('publicusersubscription')->where('id',$request->hidden)->update($data);
-            return redirect()->route('sub-dashboard')->with('success','You Subscription Updated SuccesfullY!');
-        }
-        public function deletesubscription($id){
-            DB::table('publicusersubscription')->where('id',$id)->delete();
-            return redirect()->route('sub-dashboard')->with('success','You Subscription Deleted SuccesfullY!');
-
-        }
-        public function changePasswrd(Request $request){
-          //echo '<pre>'; print_r($request->all()); die;
-          try{
-            $request->validate([
-                'newpassword' => 'required|min:8', 
-                'confirm_new_password' => 'required|same:newpassword',
-            ]);
-              
-            $plainPassword = $request->input('newpassword');
-            $decrypted = password_hash($plainPassword, PASSWORD_DEFAULT);
-            $data=[
-                'NPW' => $decrypted,
-            ];
-            DB::table('publicuser')->where('id',$request->reset_pass_id)->update($data);
-            return redirect()->route('sub-dashboard')->with('success','Password Changed Succesfully!');
-
-          }catch (\Illuminate\Validation\ValidationException $e) {
-            $errors = $e->validator->errors();
-            return back()->withErrors($errors)->withInput();
-          }
-        }
-        public function deletesubscriptionaccount($id){
-           // DB::table('publicuser')->where('id',$id)->delete();
-            Session::pull('ret');
-            return redirect()->route('messengersub.login')->with('success','Your Account Deleted SuccesfullY!');
-        }
-        public function sendtest($id){
-           $user=DB::table('publicuseremail')->where('id',$id)->get();
-           if($user[0]->Validated==1){
-           Mail::to($user[0]->UserEmailAddress)->send(new SendTest());
-           }
-           return redirect()->route('sub-dashboard')->with('success','Send Test Succesfully!');
-
-        }
+            
 }
