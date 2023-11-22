@@ -1,7 +1,5 @@
 @extends('frontend.layouts.app')
 @section('content')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         .my-email-add table tr td {
             border: 1px solid #ddd;
@@ -575,9 +573,9 @@
         $(document).ready(function() {
             var activeTab = localStorage.getItem('activeTab');
             if (activeTab) {
-                $('.nav-tabs a[href="' + activeTab + '"]').tab('show');
+                $('.msngr-tabs a[href="' + activeTab + '"]').tab('show');
             }
-            $('.nav-tabs a').on('shown.bs.tab', function(e) {
+            $('.msngr-tabs a').on('shown.bs.tab', function(e) {
                 var target = $(e.target).attr('href');
                 localStorage.setItem('activeTab', target);
                 $(target).addClass('active').siblings().removeClass('active');

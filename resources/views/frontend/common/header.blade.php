@@ -313,13 +313,13 @@
             }
         });
 
-        jQuery('.msngr-tabs a').click(function(e) {
-            e.preventDefault();
-            var tabId = jQuery(this).attr('href');
-            jQuery('.msngr-pane').removeClass('active');
-            jQuery('#' + tabId).addClass('active');
-            jQuery(this).tab('show');
-        });
+        // jQuery('.msngr-tabs a').click(function(e) {
+        //     e.preventDefault();
+        //     var tabId = jQuery(this).attr('href');
+        //     jQuery('.msngr-pane').removeClass('active');
+        //     jQuery('#' + tabId).addClass('active');
+        //     jQuery(this).tab('show');
+        // });
         
     });
 </script>
