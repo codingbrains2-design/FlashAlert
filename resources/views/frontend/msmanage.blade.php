@@ -170,8 +170,7 @@
                                         <td class="align-middle">
                                             <div class="tbl-btns">
                                                 <button type="submit" class="btn btn-outline-warning">Update</button>
-                                                <!-- <button type="button" class="btn btn-outline-primary">Send Test</button> -->
-                                                <a href="{{url('sendtest/'.$datas1->id)}}" class="btn btn-outline-primary">Send Test</a>
+                                                <button type="button" class="btn btn-outline-primary">Send Test</button>
                                                 @if($datas1->IsPrimary !=1)
                                                 <a href="{{url('deleteemail/'.$datas1->id)}}" class="btn btn-outline-danger">Delete</a>
                                                 @endif
@@ -307,18 +306,14 @@
                                         @endforeach
                                     </span></div>
                                 <div class="form-check">
-                                <input type="hidden" name="Ealertup" value="0">
-                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
-                                        @if($orgs->EmergSub == 1) checked @endif>
-                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault" @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault">
                                         Emergency Alerts
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                <input type="hidden" name="Nreleaseup" value="0">
-                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
-                                        @if($orgs->NewsSub == 1) checked @endif>
-                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked" @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked">
                                         News Releases
                                     </label>
                                 </div>
@@ -495,7 +490,8 @@
                                                 <div class="tbl-btns">
                                                     <!-- <input type="submit" name="submit" value="UPDATE"> -->
                                                     <button type="submit" class="btn btn-outline-warning">Update</button>
-                                                    <button type="button" class="btn btn-outline-primary">Send Test</button>
+                                                    <!-- <button type="button" class="btn btn-outline-primary">Send Test</button> -->
+                                                      <a href="{{url('sendtest/'.$datas1->id)}}" class="btn btn-outline-primary">Send Test</a>
                                                     @if($datas1->IsPrimary !=1)
                                                     <a href="{{url('deleteemail/'.$datas1->id)}}" class="btn btn-outline-danger">Delete</a>
                                                     @endif
@@ -619,7 +615,7 @@
                     <p class="fw-6 font-12">Organizations that you are subscribed to</p>
 
                     <div class="font-12">
-                        <form method="post" action="{{route('updatenewssubs')}}">
+                       <!--  <form method="post" action="{{route('updatenewssubs')}}">
                             @csrf
                             @foreach($org as $orgs)
                             <div class="row">
@@ -649,11 +645,50 @@
 
                                 <div class="text-end">
                                     <input type="Submit" class="py-2 px-4 " value="Update">
-                                    <input type="Submit" class="py-2 px-4 " value="Delete">
+                                     <input type="Submit" class="py-2 px-4 " value="Delete"> 
+                                     <a href="{{url('deletesubscription/'.$orgs->id)}}"  class="py-2 px-4 btn btn-primary text-white" onclick="return confirm('Are You Sure You Want To Delete?')">DELETE</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </form> -->
+                         <form method="post" action="{{route('updatenewssubs')}}">
+                            @csrf
+                            @foreach($org as $orgs)
+                            <div class="row">
+                                <input type="hidden" name="hidden_{{ $orgs->id }}" value="{{@$orgs->id}}">
+                                <div class="four columns"><span class="fw-6">
+                                        @php
+                                        $orgname=Helper::getDataID1('orgs',$orgs->OrgID ,'id');
+                                        @endphp
+                                        @foreach($orgname as $orgna)
+                                        <h4>{{$orgna->Name}}</h4>
+                                        @endforeach
+                                    </span></div>
+                                <div class="form-check">
+                                <input type="hidden" name="Ealertup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Ealertup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
+                                        @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+                                        Emergency Alerts
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                <input type="hidden" name="Nreleaseup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Nreleaseup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
+                                        @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+                                        News Releases
+                                    </label>
+                                </div>
+
+                                <div class="text-end">
+                                    <input type="Submit" class="py-2 px-4 " value="Update">
+                                    <a href="{{url('deletesubscription/'.$orgs->id)}}"  class="py-2 px-4 btn btn-primary text-white" onclick="return confirm('Are You Sure You Want To Delete?')">DELETE</a>
                                 </div>
                             </div>
                             @endforeach
                         </form>
+      
                         <div style="clear:both;"></div>
                     </div>
                 </div>
