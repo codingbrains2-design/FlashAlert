@@ -257,6 +257,7 @@
                                                 </form>
                                             </tr>
                                         @endif
+<<<<<<< HEAD
                                         @if (count($data1) < 3)
                                             <tr>
                                                 <form method="post" action="{{ route('adduseremail') }}">
@@ -281,6 +282,134 @@
                                                     </td>
                                                 </form>
                                             </tr>
+=======
+                                        <td>
+                                            <input class="form-control border-0" type="hidden" value="{{$datas1->id}}"
+                                                name="hidden">
+                                            <div class="tbl-input-email">
+                                                <input class="form-control border-0" type="text"
+                                                    value="{{$datas1->UserEmailAddress}}">
+                                                @if($datas1->Validated!=1)
+                                                <span class="text-danger">Validation email sent. <a
+                                                        href="{{url('resendcode/'.$datas1->id)}}">Click here to send
+                                                        validation email again.</a>
+                                                </span>
+                                                @php
+                                                $dateTimeFromDatabase = $datas1->CreateDate;
+                                                $currenttime = \Carbon\Carbon::now();
+                                                $timeDifferenceInMinutes =
+                                                $currenttime->diffInMinutes($dateTimeFromDatabase);
+                                                @endphp
+                                                @if($timeDifferenceInMinutes < 2) <span class="text-danger timer">
+                                                    </span>
+
+                                                    @endif
+                                                    <br>
+                                                    @if (Session::has('msg'))
+                                                    <script>
+                                                    swal({
+                                                        title: "Opps!",
+                                                        text: "{{ Session::get('msg') }}",
+                                                        icon: "error",
+                                                        timer: 3000
+                                                    });
+                                                    </script>
+                                                    @endif
+                                                    <label for="" class="form-label">Enter code from validation
+                                                        message</label>
+                                                    <input class="form-control border" type="text" value=""
+                                                        name="validatedcode">
+                                                    <span>Alerts are not sent to non-validated addresses.</span>
+                                                    @endif
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="tbl-btns">
+                                                <!-- <input type="submit" name="submit" value="UPDATE"> -->
+                                                <button type="submit" class="btn btn-outline-warning">Update</button>
+                                                <button type="button" class="btn btn-outline-primary">Send Test</button>
+                                                @if($datas1->IsPrimary !=1)
+                                                <a href="{{url('deleteemail/'.$datas1->id)}}"
+                                                    class="btn btn-outline-danger">Delete</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </form>
+                                </tr>
+                                <?php $i++; ?>
+                                @endforeach
+
+                                <!-- <tr>
+                                        <td>Email #2</td>
+                                        <td>
+                                            <div class="tbl-input-email">
+                                                <input class="form-control border-0" type="text"
+                                                    value="">
+                                            </div>
+                                           <div>
+                                                <span class="text-danger">Enter validation code and press Update to
+                                                    submit.</span><br>
+                                                <label for="" class="form-label">Enter code from validation
+                                                    message</label>
+                                                <input class="form-control border" type="text" value="">
+                                                <span>Alerts are not sent to non-validated addresses.</span>
+                                            </div> 
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="tbl-btns">
+                                                <button type="button" class="btn btn-outline-warning">Update</button>
+                                                <button type="button" class="btn btn-outline-primary">Send Test</button>
+                                                <button type="button" class="btn btn-outline-danger">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr> -->
+                                @if(count($data1)<2) 
+                                <tr>
+                                    <form method="post" action="{{route('adduseremail')}}">
+                                        @csrf
+                                        <input type="hidden" name="userid" value="{{$data[0]->id}}">
+                                        <td>Email #2</td>
+                                        <td>
+                                            <div class="tbl-input-email">
+                                                <input class="form-control border-0" type="text" value="" name="email">
+                                                @error('email')
+                                                <span style="color:red;"
+                                                    role="alert"><strong>{{ $message }}</strong></span>
+                                                @enderror
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="tbl-btns">
+                                                <button type="submit" class="btn btn-outline-success">Add</button>
+                                            </div>
+                                        </td>
+                                    </form>
+                                    </tr>
+                                    @endif
+                                    @if(count($data1)<3) 
+                                    <tr>
+                                        <form method="post" action="{{route('adduseremail')}}">
+                                            @csrf
+                                            <input type="hidden" name="userid" value="{{$data[0]->id}}">
+                                            <td>Email #3</td>
+                                            <td>
+                                                <div class="tbl-input-email">
+                                                    <input class="form-control border-0" type="text" value=""
+                                                        name="email">
+                                                    @error('email')
+                                                    <span style="color:red;"
+                                                        role="alert"><strong>{{ $message }}</strong></span>
+                                                    @enderror
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="tbl-btns">
+                                                    <button type="submit" class="btn btn-outline-success">Add</button>
+                                                </div>
+                                            </td>
+                                        </form>
+                                        </tr>
+>>>>>>> 798cc2b (clean)
                                         @endif
                                     </tbody>
                                 </table>
@@ -464,18 +593,28 @@
 =======
                                     </span></div>
                                 <div class="form-check">
+<<<<<<< HEAD
                                 <input type="hidden" name="Ealertup_{{$orgs->id}}" value="0">
                                     <input class="form-check-input" name="Ealertup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
                                         @if($orgs->EmergSub == 1) checked @endif>
                                     <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+=======
+                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault" @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault">
+>>>>>>> 3f96bd0 (clean)
                                         Emergency Alerts
                                     </label>
                                 </div>
                                 <div class="form-check">
+<<<<<<< HEAD
                                 <input type="hidden" name="Nreleaseup_{{$orgs->id}}" value="0">
                                     <input class="form-check-input" name="Nreleaseup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
                                         @if($orgs->NewsSub == 1) checked @endif>
                                     <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+=======
+                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked" @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked">
+>>>>>>> 3f96bd0 (clean)
                                         News Releases
                                     </label>
 >>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
@@ -533,15 +672,348 @@
                                 <input type="Submit" class="py-2 px-4" value="Search">
                             </div>
                             </form>
+<<<<<<< HEAD
                             <div class="col-lg-12 mt-3" id="showorg" style="display:none;">
 >>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
                             <p>Organization:</p>
+<<<<<<< HEAD
                             <select name="cars" size="10" id="cars" style="width:100%;">
 
                             </select>
                         </div>
 
                         <div class="col-lg-6 mt-3" id="showsubscriber" style="display:none;">
+=======
+                                <select name="cars" size="10" id="cars" style="width:100%;">
+                                    
+=======
+                            <div class="mt-3">
+                                Also available on : <a here="">Twitter</a> | <a here="">Facebook</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div> -->
+            <!-- <div class="tab-pane fade p-4 border" id="accSet" role="tabpanel" aria-labelledby="acc-setting">
+                <p class="fw-6 ">Change your Account Password</p>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="" class="form-label fw-6">New Password</label>
+                        <input class="form-control border" type="text" value="">
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="" class="form-label fw-6">Confirm Password</label>
+                        <input class="form-control border" type="text" value="">
+                    </div>
+                    <div class="col-12 mt-3 text-end">
+                        <input type="Submit" class="py-2 px-4 " value="Change password">
+                    </div>
+                </div>
+                <div class="del-account mt-3">
+                    <p>Delete your FlashAlert account</p>
+                    <button type="button" class="btn btn-danger p-3">Delete this Account</button>
+                </div>
+            </div> -->
+
+            <ul class="nav nav-tabs msngr-tabs ml-0 justify-content-between bg-e3 msgr-subs-tabs">
+                <li class="active"><a href="tab-home">My Email Address  <span>{{count($data1)}}</span></a></li>
+                <li><a href="tab-profile">My Linked Phone Apps</a></li>
+                <li><a href="tab-mysubscriptions">My Subscriptions {{count($org)}}</a></li>
+                <li><a href="tab-addsubscriptions">Add Subscriptions</a></li>
+                <li><a href="tab-msngrsettings">Account Settings</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane msngr-pane active p-4 border" id="tab-home">
+                    <div class="">
+                        <div class="my-email-add table-responsive">
+                            <table class="table table-bordered fw-6 font-12">
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    @foreach($data1 as $datas1)
+
+                                    <tr>
+                                        <form method="post" action="{{route('validatecode')}}">
+                                            @csrf
+                                            @if($datas1->IsPrimary ==1)
+                                            <td>Primary Email</td>
+                                            @else
+                                            <td>Email#<?php echo $i; ?></td>
+                                            @endif
+                                            <td>
+                                                <input class="form-control border-0" type="hidden" value="{{$datas1->id}}" name="hidden">
+                                                <div class="tbl-input-email">
+                                                    <input class="form-control border-0" type="text" value="{{$datas1->UserEmailAddress}}">
+                                                    @if($datas1->Validated!=1)
+                                                    <span class="text-danger">Validation email sent. <a href="{{url('resendcode/'.$datas1->id)}}">Click here to send
+                                                            validation email again.</a>
+                                                    </span>
+                                                    @php
+                                                    $dateTimeFromDatabase = $datas1->CreateDate;
+                                                    $currenttime = \Carbon\Carbon::now();
+                                                    $timeDifferenceInMinutes =
+                                                    $currenttime->diffInMinutes($dateTimeFromDatabase);
+                                                    @endphp
+                                                    @if($timeDifferenceInMinutes < 2) <span class="text-danger timer">
+                                                        </span>
+
+                                                        @endif
+                                                        <br>
+                                                        @if (Session::has('msg'))
+                                                        <script>
+                                                            swal({
+                                                                title: "Opps!",
+                                                                text: "{{ Session::get('msg') }}",
+                                                                icon: "error",
+                                                                timer: 3000
+                                                            });
+                                                        </script>
+                                                        @endif
+                                                        <label for="" class="form-label">Enter code from validation
+                                                            message</label>
+                                                        <input class="form-control border" type="text" value="" name="validatedcode">
+                                                        <span>Alerts are not sent to non-validated addresses.</span>
+                                                        @endif
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="tbl-btns">
+                                                    <!-- <input type="submit" name="submit" value="UPDATE"> -->
+                                                    <button type="submit" class="btn btn-outline-warning">Update</button>
+                                                    <!-- <button type="button" class="btn btn-outline-primary">Send Test</button> -->
+                                                      <a href="{{url('sendtest/'.$datas1->id)}}" class="btn btn-outline-primary">Send Test</a>
+                                                    @if($datas1->IsPrimary !=1)
+                                                    <a href="{{url('deleteemail/'.$datas1->id)}}" class="btn btn-outline-danger">Delete</a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                    <?php $i++; ?>
+                                    @endforeach
+
+                                    <!-- <tr>
+                                        <td>Email #2</td>
+                                        <td>
+                                            <div class="tbl-input-email">
+                                                <input class="form-control border-0" type="text"
+                                                    value="">
+                                            </div>
+                                           <div>
+                                                <span class="text-danger">Enter validation code and press Update to
+                                                    submit.</span><br>
+                                                <label for="" class="form-label">Enter code from validation
+                                                    message</label>
+                                                <input class="form-control border" type="text" value="">
+                                                <span>Alerts are not sent to non-validated addresses.</span>
+                                            </div> 
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="tbl-btns">
+                                                <button type="button" class="btn btn-outline-warning">Update</button>
+                                                <button type="button" class="btn btn-outline-primary">Send Test</button>
+                                                <button type="button" class="btn btn-outline-danger">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr> -->
+                                    @if(count($data1)<2) <tr>
+                                        <form method="post" action="{{route('adduseremail')}}">
+                                            @csrf
+                                            <input type="hidden" name="userid" value="{{$data[0]->id}}">
+                                            <td>Email #2</td>
+                                            <td>
+                                                <div class="tbl-input-email">
+                                                    <input class="form-control border-0" type="text" value="" name="email">
+                                                    @error('email')
+                                                    <span style="color:red;" role="alert"><strong>{{ $message }}</strong></span>
+                                                    @enderror
+                                                </div>
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="tbl-btns">
+                                                    <button type="submit" class="btn btn-outline-success">Add</button>
+                                                </div>
+                                            </td>
+                                        </form>
+                                        </tr>
+                                        @endif
+                                        @if(count($data1)<3) <tr>
+                                            <form method="post" action="{{route('adduseremail')}}">
+                                                @csrf
+                                                <input type="hidden" name="userid" value="{{$data[0]->id}}">
+                                                <td>Email #3</td>
+                                                <td>
+                                                    <div class="tbl-input-email">
+                                                        <input class="form-control border-0" type="text" value="" name="email">
+                                                        @error('email')
+                                                        <span style="color:red;" role="alert"><strong>{{ $message }}</strong></span>
+                                                        @enderror
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <div class="tbl-btns">
+                                                        <button type="submit" class="btn btn-outline-success">Add</button>
+                                                    </div>
+                                                </td>
+                                            </form>
+                                            </tr>
+                                            @endif
+                                </tbody>
+                            </table>
+
+                            <div class="tbl-cautions mt-5">
+                                <ul style="font-size:10pt;">
+                                    <li><span class="fw-6">Be aware that with the explosion of spam and the resulting
+                                            spam filters, it is impossible to guarantee message delivery, since different
+                                            filters block different messages. FlashAlert dispatches all messages within five
+                                            minutes of being posting. Your email server and/or cell company may delay
+                                            messages. Remember that text messages truncate after 150 characters.</span></li>
+                                    <li><span class="fw-6"><em>Due to cell phone companies delaying or shortening text
+                                                messages, we strongly discourage the use of cell text
+                                                numbers.</em></span><br>We encourage you to download the free Android/iOS
+                                        phone/tablet app, FlashAlert Messenger, which uses push notification, a method
+                                        <strong class="fw-6">much faster and more reliable</strong> than text messages
+                                        (go to "My Linked Phone Apps" tab above).
+                                    </li>
+                                    <li>If you absolutely must get a text (i.e. no smartphone) and understand that support
+                                        is not available for text addresses, you may enter it in the form of an email
+                                        address. Click <a href="" target="_blank">here</a> for a list of formats by
+                                        cell company.</li>
+                                    <li>Note that if you register for news releases, they are sent to email addresses only,
+                                        but can be viewed in the phone app.</li>
+                                    <li>All addresses registered on FlashAlert will remain confidential. Each summer, you
+                                        will receive a message at your primary email address asking if you wish to continue
+                                        your subscription and to confirm your address(es).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane msngr-pane p-4 border" id="tab-profile">
+                    <div class="font-12"><strong class="fw-6">Your iOS and Android devices that have the FlashAlert
+                            Messenger app linked to this account:</strong><br><br><span style="font-weight:bold;color:#C40F29;">No mobile apps connected.</span><br>
+                        <p style="font-size:10pt;">The FlashAlert Messenger app allows you receive and view push
+                            notifications on your tablet or smart phone. Push notifications are faster and more reliable
+                            than text messaging. <strong class="fw-6">If you get a new phone, you must delete the old
+                                one and add the new one (the notifications are sent based on the phone ID token, not the
+                                phone number).</strong> <a href="" target="_blank">Click here to learn more
+                                about the Messenger app or if you are having connection issues</a>.</p>
+                        <p style="font-size:10pt;">The free FlashAlert Messenger app is available on <a href="" target="_blank"> iTunes app store.</a></p>
+                    </div>
+                </div>
+                <div class="tab-pane msngr-pane p-4 border" id="tab-mysubscriptions">
+                    <p class="fw-6 font-12">Organizations that you are subscribed to</p>
+
+                    <div class="font-12">
+                       <!--  <form method="post" action="{{route('updatenewssubs')}}">
+                            @csrf
+                            @foreach($org as $orgs)
+                            <div class="row">
+                                <input type="hidden" name="hidden" value="{{@$orgs->id}}">
+                                <div class="four columns"><span class="fw-6">
+                                        @php
+                                        $orgname=Helper::getDataID1('orgs',$orgs->OrgID ,'id');
+                                        @endphp
+                                        @foreach($orgname as $orgna)
+                                        <h4>{{$orgna->Name}}</h4>
+                                        @endforeach
+                                    </span></div>
+                                <div class="form-check">
+                                    <input type="hidden" name="Ealertup" value="0">
+                                    <input class="form-check-input" name="Ealertup" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}" @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+                                        Emergency Alerts
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="hidden" name="Nreleaseup" value="0">
+                                    <input class="form-check-input" name="Nreleaseup" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}" @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+                                        News Releases
+                                    </label>
+                                </div>
+
+                                <div class="text-end">
+                                    <input type="Submit" class="py-2 px-4 " value="Update">
+                                     <input type="Submit" class="py-2 px-4 " value="Delete"> 
+                                     <a href="{{url('deletesubscription/'.$orgs->id)}}"  class="py-2 px-4 btn btn-primary text-white" onclick="return confirm('Are You Sure You Want To Delete?')">DELETE</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </form> -->
+                         <form method="post" action="{{route('updatenewssubs')}}">
+                            @csrf
+                            @foreach($org as $orgs)
+                            <div class="row">
+                                <input type="hidden" name="hidden_{{ $orgs->id }}" value="{{@$orgs->id}}">
+                                <div class="four columns"><span class="fw-6">
+                                        @php
+                                        $orgname=Helper::getDataID1('orgs',$orgs->OrgID ,'id');
+                                        @endphp
+                                        @foreach($orgname as $orgna)
+                                        <h4>{{$orgna->Name}}</h4>
+                                        @endforeach
+                                    </span></div>
+                                <div class="form-check">
+                                <input type="hidden" name="Ealertup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Ealertup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
+                                        @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+                                        Emergency Alerts
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                <input type="hidden" name="Nreleaseup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Nreleaseup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
+                                        @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+                                        News Releases
+                                    </label>
+                                </div>
+
+                                <div class="text-end">
+                                    <input type="Submit" class="py-2 px-4 " value="Update">
+                                    <a href="{{url('deletesubscription/'.$orgs->id)}}"  class="py-2 px-4 btn btn-primary text-white" onclick="return confirm('Are You Sure You Want To Delete?')">DELETE</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        </form>
+      
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div class="tab-pane msngr-pane p-4 border" id="tab-addsubscriptions">
+                    <!-- <h2>addsubscriptions</h2> -->
+                    <p class="fw-bold font-12">Subscribe to an Organization</p>
+                    <p class="font-12">Please note that all schools & orgs use FlashAlert for media notifications, but
+                        not all offer a subscription option for the public.</p>
+
+                    <strong class="fw-6 font-12">Find your org by <span class="text-danger">searching</span> by Region or
+                        <span class="text-danger">Search all Orgs</span></strong>
+                    <form method="post" id="formSearch">
+                        <div class="row font-12">
+                            <div class="col-lg-6">
+                                <label for="" class="form-label fw-6">Region</label>
+                                <select class="form-select py-3" style="font-size: 12px;" aria-label="Default select example" id="regionSelect">
+                                    <option value="">Any Region</option>
+                                    @php
+                                    $region = Helper::getDataID('regions')->sort(function ($a, $b) {
+                                    return strcmp($a->Description, $b->Description);
+                                    });
+                                    @endphp
+                                    @foreach($region as $regions)
+                                    <option value="{{$regions->id}}">{{$regions->Description}}</option>
+                                    @endforeach
+
+>>>>>>> 3f96bd0 (clean)
+                                </select>
+                            </div>
+                           
+                            <div class="col-lg-6 mt-3" id="showsubscriber" style="display:none;">
+>>>>>>> 798cc2b (clean)
                             <h4>Check the types of messages you would like to receive :</h4>
                             <div class="ml-4">
                                 <h4 id="orgname"></h4>
