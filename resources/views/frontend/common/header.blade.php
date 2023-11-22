@@ -312,6 +312,11 @@
                 logdropdown.hide(); // Close the dropdown
             }
         });
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> f4d96f3 (fix isuue on tab click)
 
         // jQuery('.msngr-tabs a').click(function(e) {
         //     e.preventDefault();
@@ -321,6 +326,10 @@
         //     jQuery(this).tab('show');
         // });
         
+<<<<<<< HEAD
+=======
+>>>>>>> a249c71 (fix isuue on tab click)
+>>>>>>> f4d96f3 (fix isuue on tab click)
     });
 </script>
 <!-- header -->
