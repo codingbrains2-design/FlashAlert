@@ -23,3 +23,23 @@
     </div>
 </section>
 @endsection
+=======
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+        <div class="container bank-union my-4" style="min-height: 42vh;">
+            <form class="log-input front-login" method="post" action="{{ route('frontend-send-password-reset') }}">
+                @csrf
+                <label for="EmailAddress" class="mb-3"><b>Please enter your Email Address</b></label>
+                <input placeholder="E-mail" type="text" id="EmailAddress" name="EmailAddress" class="srch-form mb-4"
+                    required>
+                <button type="submit" name="Submit" class="srch-btn">Reset password</button>
+                <b class="text-center my-2"><a href="{{ route('messengersub.login') }}">Click here</a> to go back</b>
+            </form>
+        </div>
+    </section>
+@endsection
+>>>>>>> 426963c (msg user reset password functionality)

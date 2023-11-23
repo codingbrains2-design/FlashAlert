@@ -46,9 +46,18 @@ p {
                             <table role="presentation"
                                 style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                                 <tr style="color: #3c3c3c;">
+<<<<<<< HEAD
                                 <!-- <td align="left" style="padding:10px 25px;background:#fff; display: flex; align-items: center;">
                                     <span style="font-weight: bold; padding-top: 10px;"> Hello {{$user}} </span>
                                 </td> -->
+=======
+<<<<<<< HEAD
+=======
+                                <!-- <td align="left" style="padding:10px 25px;background:#fff; display: flex; align-items: center;">
+                                    <span style="font-weight: bold; padding-top: 10px;"> Hello {{$user}} </span>
+                                </td> -->
+>>>>>>> 426963c (msg user reset password functionality)
+>>>>>>> a493650 (msg user reset password functionality)
                                     <td style="padding:0;color:#153643;">
                                     <span style="font-weight: bold; padding-top: 10px; padding-bottom: 15px;"> Hello {{$user['region']}} </span>
                                         <p
