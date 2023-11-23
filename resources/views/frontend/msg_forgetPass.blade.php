@@ -15,7 +15,7 @@
             <label for="EmailAddress" class="mb-3"><b>Please enter your Email Address</b></label>
             <input placeholder="E-mail" type="text" id="EmailAddress" name="EmailAddress" class="srch-form mb-4" required>
             <button type="submit" name="Submit" class="srch-btn">Reset password</button>
-            <b class="text-center my-2"><a href="">Click here</a> to go back</b>
+            <b class="text-center my-2"><a href="{{ route('messengersub.login') }}">Click here</a> to go back</b>
         </form>
     </div>
 </section>
