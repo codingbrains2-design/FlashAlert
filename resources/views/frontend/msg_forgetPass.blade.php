@@ -22,6 +22,7 @@
         </form>
     </div>
 </section>
+<<<<<<< HEAD
 @endsection
 =======
         @if (session('success'))
@@ -43,3 +44,6 @@
     </section>
 @endsection
 >>>>>>> 426963c (msg user reset password functionality)
+=======
+@endsection
+>>>>>>> 0792acb (msg user reset password functionality)
