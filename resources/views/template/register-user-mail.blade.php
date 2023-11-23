@@ -47,7 +47,7 @@ p {
                                 style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                                 <tr style="color: #3c3c3c;">
                                 <!-- <td align="left" style="padding:10px 25px;background:#fff; display: flex; align-items: center;">
-                                    <span style="font-weight: bold; padding-top: 10px;"> Hello {{$user['region']}} </span>
+                                    <span style="font-weight: bold; padding-top: 10px;"> Hello {{$user}} </span>
                                 </td> -->
                                     <td style="padding:0;color:#153643;">
                                     <span style="font-weight: bold; padding-top: 10px; padding-bottom: 15px;"> Hello {{$user['region']}} </span>
