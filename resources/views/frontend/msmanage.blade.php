@@ -1,5 +1,6 @@
 @extends('frontend.layouts.app')
 @section('content')
+<<<<<<< HEAD
     <style>
         .my-email-add table tr td {
             border: 1px solid #ddd;
@@ -21,6 +22,68 @@
             text-transform: capitalize;
             text-decoration: none;
         }
+=======
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<style>
+.my-email-add table tr td {
+    border: 1px solid #ddd;
+}
+
+.msgr-subs-tabs li .nav-link {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+}
+
+.msgr-subs-tabs li .nav-link:hover {
+    background: #bbdae5;
+    opacity: 1;
+}
+
+.msgr-subs-tabs li .nav-link.active {
+    background: #bbdae5;
+    color: #2e2e2e;
+    border-bottom: 2px solid #097397;
+}
+
+.bg-e3 {
+    background: #eee;
+}
+
+.msngr-tab-cont .tab-pane.active {
+    min-height: 45vh;
+}
+</style>
+<!-- @if (Session::has('success'))
+    <script>
+        toastr.success('{{ Session::get("success") }}', 'Success', { timeOut: 4000 });
+        setTimeout(function () {
+            window.location.href = '{{ route("sub-dashboard") }}';
+        }, 4000);
+    </script>
+@endif -->
+@if (Session::has('success'))
+    <script>
+        swal({
+            title: "Done!",
+            text: "{{ Session::get('success') }}",
+            icon: "success",
+            timer: 3000
+        });
+    </script>
+@endif
+@if (Session::has('error'))
+    <script>
+        swal({
+            title: "Opps!",
+            text: "{{ Session::get('error') }}",
+            icon: "error",
+            timer: 3000
+        });
+    </script>
+@endif
+>>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
 
         .msgr-subs-tabs li a:focus {
             background: #bbdae5 !important;
@@ -337,6 +400,7 @@
                             <div style="clear:both;"></div>
                         </div>
                     </div>
+<<<<<<< HEAD
                     <div class="tab-pane msngr-pane p-4 border" id="tab-addsubscriptions">
                         <!-- <h2>addsubscriptions</h2> -->
                         <p class="fw-bold font-12">Subscribe to an Organization</p>
@@ -355,6 +419,33 @@
                                     <select class="form-select py-3" style="font-size: 12px;"
                                         aria-label="Default select example" id="regionSelect">
                                         <option value="">Any Region</option>
+=======
+                </div>
+                <div class="tab-pane fade p-4 border" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class=""><strong class="fw-6">Your iOS and Android devices that have the FlashAlert
+                            Messenger app linked to this account:</strong><br><br><span
+                            style="font-weight:bold;color:#C40F29;">No mobile apps connected.</span><br>
+                        <p style="font-size:10pt;">The FlashAlert Messenger app allows you receive and view push
+                            notifications on your tablet or smart phone. Push notifications are faster and more reliable
+                            than text messaging. <strong class="fw-6">If you get a new phone, you must delete the old
+                                one and add the new one (the notifications are sent based on the phone ID token, not the
+                                phone number).</strong> <a href="" target="_blank">Click here to learn more
+                                about the Messenger app or if you are having connection issues</a>.</p>
+                        <p style="font-size:10pt;">The free FlashAlert Messenger app is available on <a href=""
+                                target="_blank"> iTunes app store.</a></p>
+                    </div>
+                </div>
+                <div class="tab-pane fade p-4 border" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <p class="fw-6">Organizations that you are subscribed to</p>
+
+                    <div class="">
+                        <form method="post" action="{{route('updatenewssubs')}}">
+                            @csrf
+                            @foreach($org as $orgs)
+                            <div class="row">
+                                <input type="hidden" name="hidden_{{ $orgs->id }}" value="{{@$orgs->id}}">
+                                <div class="four columns"><span class="fw-6">
+>>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
                                         @php
                                             $region = Helper::getDataID('regions')->sort(function ($a, $b) {
                                                 return strcmp($a->Description, $b->Description);
@@ -363,12 +454,31 @@
                                         @foreach ($region as $regions)
                                             <option value="{{ $regions->id }}">{{ $regions->Description }}</option>
                                         @endforeach
+<<<<<<< HEAD
 
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="" class="form-label fw-6">Search</label>
                                     <input class="form-control border" type="text" value="" id="serchtext">
+=======
+                                    </span></div>
+                                <div class="form-check">
+                                <input type="hidden" name="Ealertup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Ealertup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckDefault_{{$orgs->id}}"
+                                        @if($orgs->EmergSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckDefault_{{$orgs->id}}">
+                                        Emergency Alerts
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                <input type="hidden" name="Nreleaseup_{{$orgs->id}}" value="0">
+                                    <input class="form-check-input" name="Nreleaseup_{{$orgs->id}}" type="checkbox" value="1" id="flexCheckChecked_{{$orgs->id}}"
+                                        @if($orgs->NewsSub == 1) checked @endif>
+                                    <label class="form-check-label" for="flexCheckChecked_{{$orgs->id}}">
+                                        News Releases
+                                    </label>
+>>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
                                 </div>
 
                                 <div class="col-12 text-end mt-3">
@@ -376,8 +486,55 @@
                                         id="reset">Reset</button>
                                     <input type="Submit" class="py-2 px-4" value="Search">
                                 </div>
+<<<<<<< HEAD
                         </form>
                         <div class="col-lg-12 mt-3" id="showorg" style="display:none;">
+=======
+                            </div>
+                            @endforeach
+                        </form>
+      
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade p-4 border" id="addSubs" role="tabpanel" aria-labelledby="add-subscriber">
+                    <p class="fw-bold">Subscribe to an Organization</p>
+                    <p class="">Please note that all schools & orgs use FlashAlert for media notifications, but
+                        not all offer a subscription option for the public.</p>
+
+                    <strong class="fw-6">Find your org by <span class="text-danger">searching</span> by Region or
+                        <span class="text-danger">Search all Orgs</span></strong>
+                    <form method="post" id="formSearch">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label for="" class="form-label fw-6">Region</label>
+                                <select class="form-select py-3" style="font-size: 12px;"
+                                    aria-label="Default select example" id="regionSelect">
+                                    <option value="">Any Region</option>
+                                    @php
+                                        $region = Helper::getDataID('regions')->sort(function ($a, $b) {
+                                            return strcmp($a->Description, $b->Description);
+                                        });
+                                    @endphp
+                                    @foreach($region as $regions)
+                                    <option value="{{$regions->id}}">{{$regions->Description}}</option>
+                                    @endforeach
+                                    
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="" class="form-label fw-6">Search</label>
+                                <input class="form-control border" type="text" value="" id="serchtext"><br>
+                                <span id='msgserch' class="text-danger"></span>
+                            </div>
+                           
+                            <div class="col-12 text-end mt-3">
+                                <button type="submit" class="py-2 px-4 text-white" style="display:none;" id="reset">Reset</button>
+                                <input type="Submit" class="py-2 px-4" value="Search">
+                            </div>
+                            </form>
+                            <div class="col-lg-12 mt-3" id="showorg" style="display:none;">
+>>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
                             <p>Organization:</p>
                             <select name="cars" size="10" id="cars" style="width:100%;">
 
@@ -470,6 +627,7 @@
             } else {
                 timerSeconds--;
             }
+<<<<<<< HEAD
         }
         setInterval(updateTimer, 1000);
         $(document).ready(function() {
@@ -535,6 +693,65 @@
             });
             $("#reset").click(function(e) {
                 $('#cars').html('');
+=======
+        });
+    });
+
+
+
+    $('#formSearch').submit(function(e){
+        e.preventDefault();
+        $('#msgserch').text('');
+     //$("#showsubscriber").show();
+     $('#cars').html('');
+      
+      var serchtext= $('#serchtext').val();
+      var selectedvalue= $('#regionSelect').val();
+      if(serchtext==''){
+        $('#msgserch').text('Plz Enter Organization');
+        
+      }else{
+     $("#showsubscriber").show();
+      $("#orgname").text(serchtext+' :');
+      var url ="{{route('showorganizationbyserch')}}"
+        $.ajax({
+            type: 'POST', 
+            url: url, 
+            data: { id: selectedvalue, searchvalue:serchtext },
+            success: function(response) {
+                if(response!=""){
+                $('#showorg').show();
+                $('#cars').append(response);
+                $("#reset").show();
+                var orgid=$('#optgroupid').val();
+                $('#orgid').val(orgid);
+                }else{
+                $('#showorg').hide();  
+                }
+                console.log(response);
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+        }
+    });
+    $("#reset").click(function(e){
+        $('#cars').html('');
+        $("#reset").hide();
+      e.preventDefault();
+      var selectedValue= $('#regionSelect').val();
+      $('#serchtext').val('');
+      var url ="{{route('showorganization')}}"
+        $.ajax({
+            type: 'POST', 
+            url: url, 
+            data: { id: selectedValue },
+            success: function(response) {
+                if(response!=""){
+                $('#showorg').show();
+                $('#cars').append(response);
+>>>>>>> 70ddfa705c446d98531632a5b1ed5e4d2fb060a1
                 $("#reset").hide();
                 e.preventDefault();
                 var selectedValue = $('#regionSelect').val();
