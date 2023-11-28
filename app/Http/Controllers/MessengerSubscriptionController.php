@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegister;
 use App\Mail\SendTest;
 use Carbon\Carbon;
+use App\Mail\ResetPasswordMail;
 class MessengerSubscriptionController extends Controller
 {
 
@@ -46,6 +47,84 @@ class MessengerSubscriptionController extends Controller
         public function lostpass(){
             return view('frontend.msg_forgetPass');
         }
+        public function forgetpass($email, $token){
+            $EmaillAddress = $email;
+            $Resetcode = $token;
+            $listdata['EmaillAddress'] = $EmaillAddress;
+            $listdata['Resetcode'] = $Resetcode;
+            $listdata['success'] = 'Reset Code accepted';
+            
+            $msguser = DB::table('Publicuser')->where('EmailAddress', $EmaillAddress)->first();
+            if ($msguser->ResetCode == $Resetcode) {
+                //DB::table('Publicuser')->where('EmailAddress', $EmaillAddress)->update(['ResetCode' => '']);
+                return view('frontend.msg-recovery',compact('listdata'));
+            }
+            return view('frontend.msg-recovery', ['error' => 'Invalid reset link']);
+        }
+        public function sendPasswordReset(Request $request)
+            {
+                //dd($request->all());
+                $email = $request->input('EmailAddress');
+                $user = DB::table('Publicuser')->where('EmailAddress', $email)->first();
+                //dd($user->EmailAddress);
+                if ($user) {
+                    $token = Str::random(30);
+                    DB::table('Publicuser')->where('EmailAddress', $email)->update([
+                        'ResetCode' => $token,
+                        'ResetDate' => now(),
+                    ]);
+                    Mail::to($user->EmailAddress)->send(new ResetPasswordMail($user->EmailAddress, $token));
+                    return redirect()->route('frontend-lostpass')->with('success', 'An email has been sent to all (non cell-phone) email addresses attached to this account.
+                    <br> Please confirm your password reset by clicking on the URL in that message..');
+                }
+                return redirect()->route('frontend-lostpass')->with('error', 'We were unable to find the email address you entered. Please check your spelling and try again, or select Create a new subscription.');
+            }
+
+            public function changepasss(Request $request){
+                $EmaillAddress = $request->email;
+                $Resetcode = $request->token;
+                try {
+                    request()->validate([
+                        'NPW' => 'required|min:4', // Adjust the minimum length as needed
+                        'ConfirmNPW' => 'required|same:NPW',
+                    ]);
+            
+                    $newPassword = request()->input('NPW');
+                    $dt = DB::table('Publicuser')->where('EmailAddress', $EmaillAddress)->first();
+            
+                    if ($dt) {
+                        $lastid = $dt->id;
+            
+                        DB::table('Publicuser')->where('EmailAddress', $EmaillAddress)->update([
+                            'NPW' => bcrypt($newPassword),
+                            'ResetCode' => '',
+                            'ResetDate' => '0001-01-01 00:00:00',
+                        ]);
+            
+                        $request->session()->put('ret', $lastid);
+            
+                        return redirect()->route('sub-dashboard');
+                    } else {
+                        // User not found, handle accordingly
+                        $listdata = [
+                            'EmaillAddress' => $EmaillAddress,
+                            'Resetcode' => $Resetcode,
+                            'error' => 'User not found', // You can customize this message
+                        ];
+            
+                        return view('frontend.msg-recovery')->with($listdata);
+                    }
+                } catch (\Illuminate\Validation\ValidationException $e) {
+                    $errors = $e->validator->errors();
+                    $listdata = [
+                        'EmaillAddress' => $EmaillAddress,
+                        'Resetcode' => $Resetcode,
+                        'success' => 'Reset Code accepted',
+                    ];
+                    return view('frontend.msg-recovery', ['error' => $errors->first()])->with($listdata);
+                   }
+            }
+            
         public function attach_app(){
             return view('frontend.attachAppTut');
         }
@@ -111,7 +190,7 @@ class MessengerSubscriptionController extends Controller
             $decrypted = password_hash($plainPassword, PASSWORD_DEFAULT);
             $data=[
                 'EmailAddress' => $request->input('EmailAddress'),
-                'ResetCode' => 'abcdssdd',
+                'ResetCode' => '',
                 'ResetDate' => now(),
                 'NPW' => $decrypted,
                 'LastLogin' => now(),

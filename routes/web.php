@@ -62,6 +62,11 @@ Route::get('user-login-link/{token}/{email}', [MessengerSubscriptionController::
 
 Route::post('sub-login', [MessengerSubscriptionController::class, 'mesSubLogin'])->name('mesSubLogin');
 Route::get('forgetPass',[MessengerSubscriptionController::class,'lostpass'])->name('frontend-lostpass');
+Route::post('forgetpass',[MessengerSubscriptionController::class,'sendPasswordReset'])->name('frontend-send-password-reset');
+Route::get('forgetpasslink/{email}/{token}', [MessengerSubscriptionController::class, 'forgetpass']);
+Route::post('changepass',[MessengerSubscriptionController::class,'changepasss'])->name('frontend-changepasss');
+
+
 Route::get('/post-your-news/{url}/{id}', [RegionController::class,'postnews'])->name('postnewsregions');
 Route::get('/user-login', [CommonController::class,'ulogin'])->name('userlogin');
 Route::post('/submit-form', [RegionController::class,'submitForm']);
